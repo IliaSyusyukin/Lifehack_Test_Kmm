@@ -19,6 +19,11 @@ class CompaniesViewModel : BaseSharedViewModel<CompaniesViewState, CompaniesActi
     private val companiesRepository: CompaniesRepository = Inject.instance()
     private var showCompaniesJob: Job? = null
 
+//    val companies = Pager(
+//        pagingSourceFactory = { RecipesPagingSource(recipesRepository) },
+//        config = PagingConfig(pageSize = 20)
+//    ).flow.cachedIn(viewModelScope)
+
     init {
         showCompanies()
     }
@@ -31,7 +36,7 @@ class CompaniesViewModel : BaseSharedViewModel<CompaniesViewState, CompaniesActi
                 println("!!!Company clicked = ${viewEvent.company}")
             }
             is CompaniesEvent.QueryChanged -> {
-                //viewAction = CompaniesAction.ShowCompanies
+                viewAction = CompaniesAction.ShowCompanies
                 showCompanies()
             }
         }
@@ -43,19 +48,19 @@ class CompaniesViewModel : BaseSharedViewModel<CompaniesViewState, CompaniesActi
 
     private fun showCompanies() {
         showCompaniesJob = viewModelScope.launch {
-            viewState = viewState.copy()
+            viewState = viewState.copy(companies = emptyList(), isLoaded = false)
             showCompaniesJob?.cancel()
-            delay(500)
+            delay(2000)
             viewState = try {
                 println("Start showCompanies")
                 val companiesResponse = companiesRepository.fetchAllCompanies()
                 println("${companiesResponse.get(0).companyName}")
                 //viewAction = CompaniesAction.ShowCompanies
-                viewState.copy(companies = companiesResponse)
+                viewState.copy(companies = companiesResponse, isLoaded = true)
             } catch (e:Exception) {
                 println("Error showCompanies")
                 println(e.localizedMessage)
-                viewState.copy(companies = emptyList())
+                viewState.copy(companies = emptyList(), isLoaded = false)
             }
         }
     }

@@ -87,5 +87,11 @@ object Dependencies {
             const val core = "io.github.alexgladkov:odyssey-core:$version"
             const val compose = "io.github.alexgladkov:odyssey-compose:$version"
         }
+
+        object Accompanist {
+            private const val version = "0.28.0"
+            const val placeholder = "com.google.accompanist:accompanist-placeholder:$version"
+            const val placeholderMaterial = "com.google.accompanist:accompanist-placeholder-material:$version"
+        }
     }
 }

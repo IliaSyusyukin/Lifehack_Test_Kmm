@@ -24,6 +24,9 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Image.Coil.core)
                 implementation(Dependencies.Image.Coil.compose)
+
+                //implementation(Dependencies.Other.Accompanist.placeholder)
+                implementation(Dependencies.Other.Accompanist.placeholderMaterial)
             }
         }
     }
